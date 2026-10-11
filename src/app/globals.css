@@ -1,0 +1,32 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* Leaflet popup tweaks */
+.leaflet-popup-content-wrapper {
+  border-radius: 8px;
+  padding: 0;
+}
+
+.leaflet-popup-content {
+  margin: 10px 12px;
+}
+
+/* Emergency mode high-contrast overrides */
+.emergency-mode {
+  --tw-bg-opacity: 1;
+  background-color: #000 !important;
+  color: #fff !important;
+}
+
+.emergency-mode * {
+  transition: none !important;
+  animation: none !important;
+}
