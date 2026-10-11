@@ -51,8 +51,8 @@ export default function HomePage() {
         emergencyMode ? "emergency-mode bg-black text-white" : "bg-white"
       }`}
     >
-      {/* Sidebar */}
-      <div className="w-full max-w-sm shrink-0 md:w-96">
+      {/* Sidebar - wider for readability */}
+      <div className="w-full max-w-md shrink-0 md:w-[420px] lg:w-[460px]">
         <Sidebar
           items={items}
           loading={loading}
@@ -97,25 +97,25 @@ export default function HomePage() {
           </button>
         </div>
 
-        {/* Legend */}
+        {/* Legend - high contrast, easy to read */}
         {!emergencyMode && (
-          <div className="absolute bottom-6 left-4 z-[1000] rounded-lg bg-white/95 px-4 py-3 text-xs shadow-md backdrop-blur">
-            <p className="font-semibold mb-1.5">Legend</p>
-            <div className="flex flex-col gap-1">
+          <div className="absolute bottom-6 left-4 z-[1000] rounded border border-gray-300 bg-white px-4 py-3 text-sm text-gray-900 shadow">
+            <p className="mb-2 font-semibold">Legend</p>
+            <div className="flex flex-col gap-1.5">
               <span className="flex items-center gap-2">
-                <span className="inline-block h-3 w-3 rounded-full bg-[#31a354]" />
+                <span className="inline-block h-3.5 w-3.5 rounded-full border-2 border-white bg-[#16a34a] shadow-sm" />
                 {"Quake < 4.5"}
               </span>
               <span className="flex items-center gap-2">
-                <span className="inline-block h-3 w-3 rounded-full bg-[#fd8d3c]" />
+                <span className="inline-block h-3.5 w-3.5 rounded-full border-2 border-white bg-[#ea580c] shadow-sm" />
                 {"Quake 4.5–6.0 / Tropical Storm"}
               </span>
               <span className="flex items-center gap-2">
-                <span className="inline-block h-3 w-3 rounded-full bg-[#e31a1c]" />
+                <span className="inline-block h-3.5 w-3.5 rounded-full border-2 border-white bg-[#dc2626] shadow-sm" />
                 {"Quake ≥ 6.0 / Hurricane"}
               </span>
               <span className="flex items-center gap-2">
-                <span className="inline-block h-3 w-3 rounded-full bg-[#7f0000]" />
+                <span className="inline-block h-3.5 w-3.5 rounded-full border-2 border-white bg-[#991b1b] shadow-sm" />
                 Major Hurricane (Cat 4+)
               </span>
             </div>
