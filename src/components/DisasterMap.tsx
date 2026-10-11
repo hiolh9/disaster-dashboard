@@ -39,20 +39,20 @@ function FitBounds({ items }: { items: DisasterItem[] }) {
 
 function getColor(item: DisasterItem): string {
   if (item.kind === "storm") {
-    if (item.windKt >= 113) return "#7f0000";
-    if (item.windKt >= 64) return "#e31a1c";
-    return "#fd8d3c";
+    if (item.windKt >= 113) return "#991b1b";
+    if (item.windKt >= 64) return "#dc2626";
+    return "#ea580c";
   }
-  if (item.magnitude >= 6.0) return "#e31a1c";
-  if (item.magnitude >= 4.5) return "#fd8d3c";
-  return "#31a354";
+  if (item.magnitude >= 6.0) return "#dc2626";
+  if (item.magnitude >= 4.5) return "#ea580c";
+  return "#16a34a";
 }
 
 function getRadius(item: DisasterItem): number {
   if (item.kind === "storm") {
-    return Math.min(8 + item.windKt / 15, 22);
+    return Math.min(10 + item.windKt / 12, 26);
   }
-  return Math.min(6 + item.magnitude * 1.8, 20);
+  return Math.min(8 + item.magnitude * 2, 24);
 }
 
 export default function DisasterMap({
@@ -71,71 +71,85 @@ export default function DisasterMap({
           center={[item.lat, item.lon]}
           radius={getRadius(item)}
           pathOptions={{
-            color: emergencyMode ? "#000" : getColor(item),
-            fillColor: emergencyMode ? "#fff" : getColor(item),
-            fillOpacity: emergencyMode ? 0.9 : 0.75,
-            weight: selectedId === item.id ? 3 : 1,
+            color: emergencyMode ? "#000000" : "#ffffff",
+            fillColor: emergencyMode ? "#ffffff" : getColor(item),
+            fillOpacity: emergencyMode ? 0.95 : 0.85,
+            weight: selectedId === item.id ? 3 : 2,
+            opacity: 1,
           }}
           eventHandlers={{
             click: () => onSelect(item),
           }}
         >
           <Popup>
-            <div className="min-w-[200px] text-sm">
+            <div>
               {item.kind === "earthquake" ? (
                 <>
-                  <p className="font-bold text-base">
+                  <p className="disaster-popup-title">
                     M{item.magnitude.toFixed(1)} Earthquake
                   </p>
-                  <p className="text-gray-700">{item.place}</p>
-                  <p className="text-xs text-gray-500 mt-1">
+                  <p className="disaster-popup-place">{item.place}</p>
+                  <p className="disaster-popup-meta">
                     {new Date(item.time).toUTCString()}
                   </p>
-                  <p className="text-xs">Depth: {item.depth.toFixed(1)} km</p>
-                  {item.tsunami && (
-                    <p className="text-red-600 font-semibold text-xs mt-1">
+                  <p className="disaster-popup-meta">
+                    Depth: {item.depth.toFixed(1)} km
+                  </p>
+                  {item.tsunami ? (
+                    <p
+                      className="disaster-popup-meta"
+                      style={{ color: "#b91c1c", fontWeight: 600 }}
+                    >
                       Tsunami flag
                     </p>
-                  )}
+                  ) : null}
                   <a
                     href={item.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-blue-600 underline text-xs mt-2 inline-block"
+                    className="disaster-popup-link"
                   >
                     USGS detail →
                   </a>
                 </>
               ) : (
                 <>
-                  <p className="font-bold text-base">
+                  <p className="disaster-popup-title">
                     {item.classification} {item.name}
                   </p>
-                  <p className="text-gray-700">
-                    Max winds: {item.windKt} kt ({Math.round(item.windKt * 1.15)} mph)
+                  <p className="disaster-popup-place">
+                    Max winds: {item.windKt} kt ({
+                      Math.round(item.windKt * 1.15)
+                    }{" "}
+                    mph)
                   </p>
-                  {item.pressure && (
-                    <p className="text-xs">Pressure: {item.pressure} mb</p>
-                  )}
-                  <p className="text-xs text-gray-500 mt-1">
+                  {item.pressure ? (
+                    <p className="disaster-popup-meta">
+                      Pressure: {item.pressure} mb
+                    </p>
+                  ) : null}
+                  <p className="disaster-popup-meta">
                     Updated: {item.lastUpdate}
                   </p>
-                  <p className="text-xs">Movement: {item.movement}</p>
-                  {item.url && (
+                  <p className="disaster-popup-meta">
+                    Movement: {item.movement}
+                  </p>
+                  {item.url ? (
                     <a
                       href={item.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-blue-600 underline text-xs mt-2 inline-block"
+                      className="disaster-popup-link"
                     >
                       NHC graphics →
                     </a>
-                  )}
+                  ) : null}
                 </>
               )}
               <button
+                type="button"
                 onClick={() => onSelect(item)}
-                className="mt-2 w-full rounded bg-orange-500 px-2 py-1 text-xs text-white hover:bg-orange-600"
+                className="disaster-popup-btn"
               >
                 Open Impact Visualizer
               </button>
