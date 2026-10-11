@@ -104,15 +104,15 @@ export default function HomePage() {
             <div className="flex flex-col gap-1">
               <span className="flex items-center gap-2">
                 <span className="inline-block h-3 w-3 rounded-full bg-[#31a354]" />
-                Quake < 4.5
+                {"Quake < 4.5"}
               </span>
               <span className="flex items-center gap-2">
                 <span className="inline-block h-3 w-3 rounded-full bg-[#fd8d3c]" />
-                Quake 4.5–6.0 / Tropical Storm
+                {"Quake 4.5–6.0 / Tropical Storm"}
               </span>
               <span className="flex items-center gap-2">
                 <span className="inline-block h-3 w-3 rounded-full bg-[#e31a1c]" />
-                Quake ≥ 6.0 / Hurricane
+                {"Quake ≥ 6.0 / Hurricane"}
               </span>
               <span className="flex items-center gap-2">
                 <span className="inline-block h-3 w-3 rounded-full bg-[#7f0000]" />
