@@ -36,7 +36,7 @@ export default function Sidebar({
         )
           return false;
       } else {
-        if (minMag > 0) return false; // simple filter: mag only for quakes
+        if (minMag > 0) return false;
         const q = query.toLowerCase();
         if (
           q &&
@@ -54,18 +54,18 @@ export default function Sidebar({
       className={`flex h-full w-full flex-col border-r ${
         emergencyMode
           ? "border-white bg-black text-white"
-          : "border-gray-200 bg-white text-gray-900 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100"
+          : "border-gray-300 bg-white text-gray-900"
       }`}
     >
       <div
-        className={`shrink-0 border-b p-4 ${
-          emergencyMode ? "border-white" : "border-gray-200 dark:border-gray-700"
+        className={`shrink-0 border-b px-4 py-4 ${
+          emergencyMode ? "border-white" : "border-gray-300"
         }`}
       >
-        <div className="flex items-center justify-between mb-3">
+        <div className="mb-3 flex items-center justify-between">
           <h1
-            className={`text-lg font-bold tracking-tight ${
-              emergencyMode ? "text-white text-xl" : ""
+            className={`font-bold ${
+              emergencyMode ? "text-xl text-white" : "text-xl text-gray-900"
             }`}
           >
             {emergencyMode ? "EMERGENCY FEED" : "Live Disasters"}
@@ -73,35 +73,35 @@ export default function Sidebar({
           <button
             onClick={onRefresh}
             disabled={loading}
-            className={`rounded p-1.5 ${
+            className={`rounded p-2 ${
               emergencyMode
                 ? "bg-white text-black"
-                : "bg-gray-100 hover:bg-gray-200 dark:bg-gray-800"
+                : "bg-gray-200 text-gray-800 hover:bg-gray-300"
             }`}
             title="Refresh data"
           >
-            <RefreshCw className={`h-4 w-4 ${loading ? "animate-spin" : ""}`} />
+            <RefreshCw className={`h-5 w-5 ${loading ? "animate-spin" : ""}`} />
           </button>
         </div>
 
         <div className="relative">
-          <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-400" />
+          <Search className="absolute left-3 top-3 h-4 w-4 text-gray-500" />
           <input
             type="text"
             placeholder="Filter by place or name..."
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            className={`w-full rounded-lg border py-2 pl-9 pr-3 text-sm outline-none focus:ring-2 focus:ring-orange-500 ${
+            className={`w-full rounded border py-2.5 pl-10 pr-3 text-base outline-none focus:ring-2 focus:ring-orange-500 ${
               emergencyMode
                 ? "border-white bg-black text-white placeholder:text-gray-400"
-                : "border-gray-300 bg-gray-50 dark:border-gray-600 dark:bg-gray-800"
+                : "border-gray-400 bg-white text-gray-900 placeholder:text-gray-500"
             }`}
           />
         </div>
 
         {!emergencyMode && (
-          <div className="mt-3 flex items-center gap-2 text-xs">
-            <label>Min Mag:</label>
+          <div className="mt-3 flex items-center gap-2 text-sm text-gray-700">
+            <label className="shrink-0">Min Mag:</label>
             <input
               type="range"
               min={0}
@@ -111,70 +111,82 @@ export default function Sidebar({
               onChange={(e) => setMinMag(Number(e.target.value))}
               className="flex-1"
             />
-            <span className="w-8 text-right">{minMag || "All"}</span>
+            <span className="w-10 text-right font-medium text-gray-900">
+              {minMag || "All"}
+            </span>
           </div>
         )}
       </div>
 
-      <div className="flex-1 overflow-y-auto">
+      <div className="sidebar-scroll flex-1 overflow-y-auto">
         {loading && items.length === 0 ? (
-          <p className="p-4 text-center text-sm opacity-70">Loading live data…</p>
+          <p className="p-4 text-center text-base text-gray-600">
+            Loading live data…
+          </p>
         ) : filtered.length === 0 ? (
-          <p className="p-4 text-center text-sm opacity-70">No matching events</p>
+          <p className="p-4 text-center text-base text-gray-600">
+            No matching events
+          </p>
         ) : (
-          <ul className="divide-y divide-gray-200 dark:divide-gray-700">
+          <ul
+            className={
+              emergencyMode
+                ? "divide-y divide-gray-700"
+                : "divide-y divide-gray-200"
+            }
+          >
             {filtered.map((item) => (
               <li key={item.id}>
                 <button
                   onClick={() => onSelect(item)}
-                  className={`w-full px-4 py-3 text-left transition ${
+                  className={`w-full px-4 py-3.5 text-left ${
                     selectedId === item.id
                       ? emergencyMode
                         ? "bg-white text-black"
-                        : "bg-orange-50 dark:bg-orange-950/40"
+                        : "bg-orange-100 text-gray-900"
                       : emergencyMode
-                      ? "hover:bg-gray-900"
-                      : "hover:bg-gray-50 dark:hover:bg-gray-800"
+                      ? "text-white hover:bg-gray-900"
+                      : "text-gray-900 hover:bg-gray-100"
                   }`}
                 >
-                  <div className="flex items-start gap-2">
+                  <div className="flex items-start gap-3">
                     {item.kind === "earthquake" ? (
                       <Activity
-                        className={`mt-0.5 h-4 w-4 shrink-0 ${
+                        className={`mt-0.5 h-5 w-5 shrink-0 ${
                           item.magnitude >= 6
-                            ? "text-red-500"
+                            ? "text-red-600"
                             : item.magnitude >= 4.5
-                            ? "text-orange-500"
-                            : "text-green-500"
+                            ? "text-orange-600"
+                            : "text-green-600"
                         }`}
                       />
                     ) : (
-                      <CloudLightning className="mt-0.5 h-4 w-4 shrink-0 text-blue-500" />
+                      <CloudLightning className="mt-0.5 h-5 w-5 shrink-0 text-blue-600" />
                     )}
                     <div className="min-w-0 flex-1">
                       {item.kind === "earthquake" ? (
                         <>
-                          <p
-                            className={`font-semibold truncate ${
-                              emergencyMode ? "text-base" : "text-sm"
-                            }`}
-                          >
+                          <p className="text-base font-semibold leading-snug">
                             M{item.magnitude.toFixed(1)} · {item.place}
                           </p>
-                          <p className="text-xs opacity-70 truncate">
+                          <p
+                            className={`mt-0.5 text-sm ${
+                              emergencyMode ? "text-gray-300" : "text-gray-600"
+                            }`}
+                          >
                             {new Date(item.time).toLocaleString()}
                           </p>
                         </>
                       ) : (
                         <>
-                          <p
-                            className={`font-semibold truncate ${
-                              emergencyMode ? "text-base" : "text-sm"
-                            }`}
-                          >
+                          <p className="text-base font-semibold leading-snug">
                             {item.classification} {item.name}
                           </p>
-                          <p className="text-xs opacity-70">
+                          <p
+                            className={`mt-0.5 text-sm ${
+                              emergencyMode ? "text-gray-300" : "text-gray-600"
+                            }`}
+                          >
                             {item.windKt} kt · {item.movement}
                           </p>
                         </>
@@ -189,13 +201,15 @@ export default function Sidebar({
       </div>
 
       <div
-        className={`shrink-0 border-t p-3 text-[10px] opacity-60 ${
-          emergencyMode ? "border-white" : "border-gray-200 dark:border-gray-700"
+        className={`shrink-0 border-t px-4 py-3 text-xs ${
+          emergencyMode
+            ? "border-white text-gray-300"
+            : "border-gray-300 text-gray-600"
         }`}
       >
-        Data: USGS Earthquake Hazards · NHC Active Storms · OpenStreetMap
+        Data: USGS · NHC · OpenStreetMap
         <br />
-        Free public feeds · No API keys required
+        Free public feeds · No API keys
       </div>
     </aside>
   );
